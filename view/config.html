@@ -1,0 +1,30 @@
+<div class="span10">
+	<form class="form-inline">
+		交火引擎
+		<select id="engineSwitch">
+			<option value="0" <?php if($engine == 0) echo 'selected'; ?> >关闭</option>
+			<option value="1" <?php if($engine == 1) echo 'selected'; ?> >开启</option>
+		</select>
+	</form>
+	<?php if($engine == 1){ ?>
+	<ul class="eng-list">
+		<?php foreach ($engList as $key => $value) { ?>
+			<li>
+				<form class="form-inline">
+					路径:				
+					<input type="text" value="<?php echo $value['path']; ?>" name="path" />
+					语言:
+					<select name="lang_id">
+						<?php foreach ($langs as $subkey => $subvalue) { ?>
+							<option value="<?php echo $subkey; ?>" <?php if($subkey == $value['lang_id']) echo 'selected'; ?> >
+								<?php echo $subvalue; ?>
+							</option>
+						<?php } ?>
+					</select>
+					<a href="javascript:void(0);" class="btn">保存</a>
+				</form>
+			</li>
+		<?php } ?>
+	</ul>
+	<?php } ?>
+</div>

@@ -1,0 +1,60 @@
+<div class="span10">
+	<input type="hidden" value="<?php echo $func['func_id']; ?>" id="func_id"/>
+	<input type="hidden" value="<?php echo $func['obj_id']; ?>" id="obj_id"/>
+	<div class="well func_about well-small">
+		对象:<?php echo $obj['name']; ?>&nbsp;&nbsp;&nbsp;
+		方法:<?php echo $func['name']; ?>&nbsp;&nbsp;&nbsp;
+		创建时间:<?php echo date('Y-m-d H:i:s', $func['creat_time']); ?>&nbsp;&nbsp;&nbsp;
+		<?php if($func['update_time'] > 0){ ?>
+			最后修改时间:<?php echo date('Y-m-d H:i:s', $func['update_time']); ?>
+		<?php } ?>
+	</div>
+	<div class="func_oper">
+		<div class="pull-left">
+			<?php
+				if($cross > 0) echo '<select id="langSelect" name="lang">';
+				else echo '<select id="langSelect" disabled>';
+			?>
+				<?php foreach ($langs as $key => $value) {?>
+					<option value="<?php echo $value; ?>"><?php echo $value; ?></option>
+				<?php } ?>
+			</select>
+		</div>
+		<div class="pull-right">
+			<a href="javascript:void(0);" class="btn" id="funcRemove">删除</a>
+			<a href="<?php echo "{$obj['name']}.{$func['name']}"; ?>" class="btn" >直接访问</a>
+			<a href="javascript:void(0);" class="btn" id="funcSave">保存</a>
+		</div>
+	</div>
+	<div id="editor"></div>
+	<style>
+		#editor{
+			width: 100%;
+			height: 500px;
+			font-size: 20px;
+			display: none;
+		}
+	</style>
+	<!--<script src="http://rawgithub.com/ajaxorg/ace-builds/master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>-->
+	<script src="./resource/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		height = $(window).height() - $(".func_about").height() - 100;
+		$("#editor").css({'height': height});
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/clouds");
+		editor.getSession().setMode("ace/mode/<?php echo $langs[$func['lang_id']]; ?>");
+		$(document).ready(function(){
+			$("#editor").show();
+			$("#langSelect").val("<?php echo $langs[$func['lang_id']]; ?>");
+			$("#langSelect").change(function() {
+				editor.getSession().setMode("ace/mode/"+$(this).val());
+			});
+			$.post('./func.load', {func_id: $("#func_id").val()}, function(result){
+				data = $.parseJSON(result);
+				if(data.result){
+					editor.insert(data.data);
+				}
+			});
+		});
+	</script>
+</div>

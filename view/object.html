@@ -1,0 +1,31 @@
+<div class="span10">
+	<input type="hidden" value="<?php echo $ob['obj_id']; ?>" id="obj_id"/>
+	<div class="well">
+		对象名:<?php echo $ob['name']; ?>&nbsp;&nbsp;&nbsp;
+		创建时间:<?php echo date('Y-m-d H:i:s', $ob['creat_time']); ?>&nbsp;&nbsp;&nbsp;
+		<?php if($ob['update_time'] > 0){ ?>
+			最后修改时间:<?php echo date('Y-m-d H:i:s', $ob['update_time']); ?>
+		<?php } ?>
+		<a href="javascript:void(0);" class="btn pull-right" id="objRemove">删除</a>
+	</div>
+	<ul class="func-list">
+		<?php foreach ($func as $key => $value) { ?>	
+			<li>
+				<div class="func-tab">
+					<a href="./func=<?php echo $value['func_id']; ?>">
+						<?php echo $value['name']; ?>
+					</a><br/>
+					语言:<?php echo $langs[$value['lang_id']]; ?><br/>
+					最后修改时间:<?php echo date('Y-m-d H:i:s', $value['update_time']); ?>
+				</div>
+			</li>
+		<?php } ?>
+		<li class="add-li">
+			<form class="func-form">
+				<input type="hidden" id="obj_id" value="<?php echo $ob['obj_id']; ?>"/>
+				<input type="text" name="func_name" id="func" class="input-block-level" placeholder="方法名">
+				<a class="btn func-add btn-block btn-primary" id="funcAdd">添加</a>
+			</form>
+		</li>
+	</ul>
+</div>
